@@ -28,5 +28,24 @@ app.get('/watchys', function (req, res) {
     }
     
 })
+app.get('/link', function (req, res) {
+    try{
+        console.log(encodeURI(req.query.link));    
+
+        const request = require('request');
+        var url =encodeURI(req.query.link)
+  
+
+    request(url, function (error, response, body) {
+    const dom = new JSDOM(body);
+    res.status(200).send(dom.window.document.getElementsByClassName("WatchURL Gotoscroll nobind Hoverable")[0].href);
+
+});
+      
+    }catch(e){
+        res.status(400).send(e.message)
+    }
+    
+})
  
 app.listen(process.env.PORT || 3000)
